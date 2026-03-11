@@ -1,4 +1,4 @@
-/* --- FILE: main.js (FINAL VERSION - FORMSPREE INTEGRATED) --- */
+/* --- FILE: main.js (BẢN FINAL VÔ ĐỊCH - UPDATE MENU VIDEO) --- */
 
 /* 1. KHAI BÁO HTML DÙNG CHUNG */
 const HEADER_HTML = `
@@ -78,25 +78,23 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 
-    // Cập nhật năm footer
+    // Cập nhật năm
     const footerYear = document.querySelector(".footer-bottom span");
     if (footerYear) {
         const currentYear = new Date().getFullYear();
         footerYear.innerText = `© ${currentYear} Hopesama Portfolio. All rights reserved.`;
     }
 
-    /* 3. XỬ LÝ THEME (Light/Dark) */
+    /* 3. XỬ LÝ THEME */
     const body = document.body;
     const themeBtns = document.querySelectorAll(".theme-btn"); 
     const savedTheme = localStorage.getItem("theme");
-    
     if (savedTheme === "dark") {
         body.classList.add("dark-mode");
         themeBtns.forEach(btn => btn.innerText = "Light");
     } else {
         themeBtns.forEach(btn => btn.innerText = "Dark");
     }
-    
     themeBtns.forEach(btn => {
         btn.addEventListener("click", (e) => {
             e.preventDefault();
@@ -128,7 +126,7 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    /* 5. CON TRỎ & ANIMATION (GSAP + Lenis) */
+    /* 5. CON TRỎ & ANIMATION */
     const cursorDot = document.querySelector("[data-cursor-dot]");
     const cursorOutline = document.querySelector("[data-cursor-outline]");
     const isDesktop = window.matchMedia("(min-width: 993px)").matches;
@@ -148,7 +146,7 @@ document.addEventListener("DOMContentLoaded", () => {
             yTo(e.clientY);
         });
         document.body.addEventListener('mouseover', (e) => {
-            const target = e.target.closest('a, button, input, textarea, .project-item, .submit-btn, .card');
+            const target = e.target.closest('a, button, input, textarea, .project-item, .submit-btn, .card, blockquote');
             if (target) {
                 cursorOutline.classList.add("cursor-hover");
                 gsap.to(cursorDot, { opacity: 0, duration: 0.2 });
@@ -182,43 +180,33 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    /* 6. XỬ LÝ GỬI EMAIL (FORMSPREE AJAX) */
+    /* 6. XỬ LÝ GỬI EMAIL (FORMSPREE) */
     const contactForm = document.getElementById('contact-form');
-    
     if (contactForm) {
         contactForm.addEventListener('submit', function(event) {
-            event.preventDefault(); // Chặn việc chuyển trang
-
+            event.preventDefault(); 
             const submitBtn = document.getElementById("submit-btn");
             const formStatus = document.getElementById("form-status");
             const formData = new FormData(contactForm);
 
-            // 1. Hiệu ứng đang gửi
             const originalBtnText = submitBtn.innerText;
             submitBtn.innerText = "Đang gửi...";
             submitBtn.style.opacity = "0.7";
             submitBtn.disabled = true;
             formStatus.innerText = "";
 
-            // 2. Gửi dữ liệu qua Fetch API
             fetch(contactForm.action, {
                 method: 'POST',
                 body: formData,
-                headers: {
-                    'Accept': 'application/json'
-                }
+                headers: { 'Accept': 'application/json' }
             }).then(response => {
                 if (response.ok) {
-                    // --- GỬI THÀNH CÔNG ---
                     submitBtn.innerText = "Đã gửi thành công!";
-                    submitBtn.style.backgroundColor = "#4BB543"; // Màu xanh lá
+                    submitBtn.style.backgroundColor = "#4BB543"; 
                     submitBtn.style.color = "#fff";
                     formStatus.innerText = "Cảm ơn bạn! Hopesama sẽ phản hồi sớm nhất.";
                     formStatus.style.color = "green";
-                    
-                    contactForm.reset(); // Xóa form
-
-                    // Reset nút sau 5 giây
+                    contactForm.reset(); 
                     setTimeout(() => {
                         submitBtn.innerText = originalBtnText;
                         submitBtn.style.backgroundColor = "";
@@ -228,7 +216,6 @@ document.addEventListener("DOMContentLoaded", () => {
                         formStatus.innerText = "";
                     }, 5000);
                 } else {
-                    // --- GỬI THẤT BẠI DO SERVER (VD: Sai mail) ---
                     response.json().then(data => {
                         if (Object.hasOwn(data, 'errors')) {
                             formStatus.innerText = data["errors"].map(error => error["message"]).join(", ");
@@ -236,14 +223,13 @@ document.addEventListener("DOMContentLoaded", () => {
                             formStatus.innerText = "Có lỗi xảy ra, vui lòng thử lại.";
                         }
                         submitBtn.innerText = "Gửi thất bại";
-                        submitBtn.style.backgroundColor = "#ff3333"; // Màu đỏ
+                        submitBtn.style.backgroundColor = "#ff3333"; 
                         formStatus.style.color = "red";
                         submitBtn.disabled = false;
                         submitBtn.style.opacity = "1";
                     });
                 }
             }).catch(error => {
-                // --- LỖI MẠNG ---
                 formStatus.innerText = "Lỗi kết nối mạng! Hãy thử lại.";
                 formStatus.style.color = "red";
                 submitBtn.innerText = "Thử lại";

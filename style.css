@@ -1,4 +1,4 @@
-/* --- FILE: style.css (BẢN FINAL ĐÃ FIX LỖI MOBILE) --- */
+/* --- FILE: style.css --- */
 
 /* 1. VARIABLES */
 :root {
@@ -39,7 +39,6 @@ body {
     background-repeat: no-repeat;
 }
 
-/* Chỉ ẩn chuột hệ thống KHI JS đã chạy và kích hoạt class này */
 body.mouse-active { cursor: none !important; }
 body.mouse-active a, body.mouse-active button, body.mouse-active input, body.mouse-active textarea { cursor: none !important; }
 
@@ -66,10 +65,9 @@ ul { list-style: none; } img, video { max-width: 100%; display: block; height: a
 .container { padding: 0 var(--container-padding); display: grid; grid-template-columns: repeat(12, 1fr); gap: var(--grid-gap); max-width: 1600px; margin: 0 auto; position: relative; z-index: 1; }
 .col-12 { grid-column: span 12; } .col-8 { grid-column: span 8; } .col-6 { grid-column: span 6; } .col-4 { grid-column: span 4; }
 
-/* --- HEADER CỐ ĐỊNH (FIXED) --- */
 header { 
     padding: 20px 0; 
-    position: fixed; /* Cố định vị trí */
+    position: fixed; 
     top: 0; left: 0; width: 100%;
     z-index: 1000; 
     background: rgba(255, 255, 255, 0.2); 
@@ -90,7 +88,7 @@ body.dark-mode header { background: rgba(0, 0, 0, 0.2); }
     background-image: url('images/event-bg.jpg'); 
     background-size: cover; background-position: center; background-repeat: no-repeat;
     border-radius: 0 0 30px 30px;
-    padding-top: 100px; /* Đẩy nội dung xuống để tránh bị Header che */
+    padding-top: 100px; 
 }
 body.dark-mode .hero-event { box-shadow: inset 0 0 100px rgba(0,0,0,0.5); }
 .hero-content { display: flex; justify-content: space-between; align-items: center; width: 100%; position: relative; z-index: 2; }
@@ -127,7 +125,6 @@ body.dark-mode .hero-desc { color: #f5f5f5; } body.dark-mode .hero-link { color:
 
 /* 7. PAGE COMPONENTS */
 .detail-hero { padding: 15vh 0 5vh; } 
-/* Fix padding cho các trang con khi có Header fixed */
 main { padding-top: 80px; } 
 
 .detail-meta { margin-top: 40px; display: flex; gap: 40px; } .detail-gallery { display: flex; flex-direction: column; gap: 30px; margin-top: 60px; } .gallery-img { width: 100%; border-radius: 20px; }
@@ -164,7 +161,6 @@ footer { padding: 100px 0 40px; border-top: 1px solid var(--border-color); margi
     .container { display: flex; flex-direction: column; padding: 0 20px; position: relative; }
     .col-12, .col-8, .col-6, .col-4, .span-12, .span-6, .span-4 { width: 100% !important; grid-column: auto !important; margin-bottom: 30px; padding: 0; }
 
-    /* LỖI CŨ NẰM Ở ĐÂY: Đại ca đã xóa đoạn "header { position: sticky }" đi rồi */
     header { position: fixed; top: 0; z-index: 1000; width: 100%; }
     
     header .container { flex-direction: row; align-items: center; justify-content: flex-start; padding-top: 5px; padding-bottom: 5px; }
@@ -172,7 +168,6 @@ footer { padding: 100px 0 40px; border-top: 1px solid var(--border-color); margi
     
     .hamburger-btn { display: block; position: absolute; right: 20px; top: 50%; transform: translateY(-50%); z-index: 1002; }
 
-    /* MENU MOBILE FIX */
     .nav-links { 
         position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: var(--bg-color); 
         display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 40px; 
@@ -189,7 +184,7 @@ footer { padding: 100px 0 40px; border-top: 1px solid var(--border-color); margi
     }
     .nav-link { font-size: 2rem; font-weight: 600; }
 
-    .hero-event { min-height: auto; padding-top: 120px; /* Tăng padding trên mobile cho thoáng */ background-position: center bottom !important; align-items: flex-end; }
+    .hero-event { min-height: auto; padding-top: 120px; background-position: center bottom !important; align-items: flex-end; }
     .hero-content { flex-direction: column-reverse; gap: 20px; }
     .hero-big-text { font-size: 3rem; text-align: center; }
     .hero-desc { text-align: center; margin: 0 auto; }
@@ -202,6 +197,73 @@ footer { padding: 100px 0 40px; border-top: 1px solid var(--border-color); margi
     .footer-cols { display: flex; flex-direction: row !important; gap: 60px; width: 100%; }
     .footer-col { min-width: auto; }
     .footer-bottom { flex-direction: column; gap: 20px; align-items: flex-start; }
+}
 
-    
+/* --- 11. VIDEO LAYOUT --- */
+.video-grid {
+    display: grid;
+    /* Tự động chia cột: nếu màn hình to sẽ chia khoảng 3 cột */
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 30px;
+    margin-top: 40px;
+}
+.video-item {
+    position: relative;
+    border-radius: 20px;
+    background: transparent;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.video-item:hover {
+    transform: translateY(-10px);
+    z-index: 2;
+}
+/* Ép form Tiktok vào cho vừa vặn, không bị lồi lõm */
+.video-item blockquote {
+    margin: 0 !important;
+    width: 100% !important;
+    border-radius: 20px !important;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+}
+/* --- 12. ANIMATION LAYOUT (MIX FORMATS - MASONRY) --- */
+.animation-masonry {
+    column-count: 3; /* Chia 3 cột trên màn hình máy tính */
+    column-gap: 30px;
+    margin-top: 40px;
+}
+
+.animation-item {
+    break-inside: avoid; /* Bí kíp giúp ô không bị nát làm đôi giữa các cột */
+    margin-bottom: 30px; /* Khoảng cách giữa ô trên và ô dưới */
+    position: relative;
+    border-radius: 20px;
+    overflow: hidden;
+    background: var(--surface-color);
+    border: 1px solid var(--border-color);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    /* ĐÃ BỎ aspect-ratio ĐỂ VIDEO TỰ QUYẾT ĐỊNH CHIỀU CAO */
+}
+
+.animation-item:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+    z-index: 2;
+}
+
+.animation-item video {
+    width: 100%;
+    height: auto; /* Để Auto để giữ nguyên tỷ lệ vuông/dọc của video gốc */
+    display: block;
+    border: none;
+}
+
+/* Ép cột lại khi xem trên điện thoại và máy tính bảng */
+@media (max-width: 992px) {
+    .animation-masonry { column-count: 2; }
+}
+@media (max-width: 576px) {
+    .animation-masonry { column-count: 1; }
 }
